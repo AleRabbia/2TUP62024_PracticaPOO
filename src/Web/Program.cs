@@ -1,11 +1,15 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Configura HttpClient para consumir la API de DolarApi.com
+builder.Services.AddHttpClient("DolarApi", client =>
+{
+    client.BaseAddress = new Uri("https://dolarapi.com/");
+});
 
 var app = builder.Build();
 
@@ -17,9 +21,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
